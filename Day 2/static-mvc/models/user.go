@@ -40,11 +40,10 @@ func UpdateUser(id int, user User) []User {
 }
 
 func DeleteUser(id int) []User {
-	var newData []User
-	for _, user := range data {
-		if user.Id != id {
-			newData = append(newData, user)
+	for i, user := range data {
+		if user.Id == id {
+			data = append(data[:i], data[i+1:]...)
 		}
 	}
-	return newData
+	return data
 }
