@@ -7,8 +7,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func GetAllUsers(e echo.Context) error {
-	users := models.GetAllUsers()
+func GetBooks(e echo.Context) error {
+	users := models.GetAllBooks()
 	return e.JSON(200, map[string]interface{}{
 		"succes":  true,
 		"message": "Users retrieved",
@@ -16,46 +16,46 @@ func GetAllUsers(e echo.Context) error {
 	})
 }
 
-func GetUser(e echo.Context) error {
+func GetBookByID(e echo.Context) error {
 	id, _ := strconv.Atoi(e.Param("id"))
-	user := models.GetUserByID(id)
+	book := models.GetBookByID(id)
 	return e.JSON(200, map[string]interface{}{
 		"succes":  true,
 		"message": "Users retrieved",
-		"data":    user,
+		"data":    book,
 	})
 }
 
-func CreateUser(e echo.Context) error {
-	user := models.User{}
-	e.Bind(&user)
-	users := models.CreateUser(user)
+func CreateBook(e echo.Context) error {
+	book := models.Book{}
+	e.Bind(&book)
+	books := models.CreateBook(book)
 	return e.JSON(200, map[string]interface{}{
 		"succes":  true,
-		"message": "User created",
-		"data":    users,
+		"message": "Book created",
+		"data":    books,
 	})
 }
 
-func UpdateUser(e echo.Context) error {
+func UpdateBook(e echo.Context) error {
 	id, _ := strconv.Atoi(e.Param("id"))
-	user := models.User{}
-	e.Bind(&user)
-	users := models.UpdateUser(id, user)
+	book := models.Book{}
+	e.Bind(&book)
+	books := models.UpdateBook(id, book)
 	return e.JSON(200, map[string]interface{}{
 		"succes":  true,
-		"message": "User updated",
-		"data":    users,
+		"message": "Book updated",
+		"data":    books,
 	})
 }
 
-func DeleteUser(e echo.Context) error {
+func DeleteBook(e echo.Context) error {
 	id, _ := strconv.Atoi(e.Param("id"))
-	users := models.DeleteUser(id)
+	book := models.DeleteBook(id)
 
 	return e.JSON(200, map[string]interface{}{
 		"succes":  true,
 		"message": "User deleted",
-		"data":    users,
+		"data":    book,
 	})
 }
