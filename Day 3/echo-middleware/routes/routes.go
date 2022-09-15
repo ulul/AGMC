@@ -19,18 +19,18 @@ func New() *echo.Echo {
 	e.GET("/books", controllers.GetBook)
 	e.GET("/books/:id", controllers.GetBookByID)
 
-	r := e.Group("/jwt")
-	r.Use(middleware.JWT([]byte(config.JWTSecret)))
+	// r := e.Group("/jwt")
+	// r.Use(middleware.JWT([]byte(config.JWTSecret)))
 
 	// user routes
-	r.POST("/users", controllers.CreateUser)
-	r.GET("/users/:id", controllers.GetUserByID)
-	r.DELETE("/users/:id", controllers.DeleteUser)
-	r.PUT("/users/:id", controllers.UpdateUser)
+	e.POST("/users", controllers.CreateUser, middleware.JWT([]byte(config.JWTSecret)))
+	e.GET("/users/:id", controllers.GetUserByID, middleware.JWT([]byte(config.JWTSecret)))
+	e.DELETE("/users/:id", controllers.DeleteUser, middleware.JWT([]byte(config.JWTSecret)))
+	e.PUT("/users/:id", controllers.UpdateUser, middleware.JWT([]byte(config.JWTSecret)))
 	// book routes
-	r.POST("/books", controllers.CreateBook)
-	r.DELETE("/books/:id", controllers.DeleteBook)
-	r.PUT("/books/:id", controllers.UpdateBook)
+	e.POST("/books", controllers.CreateBook, middleware.JWT([]byte(config.JWTSecret)))
+	e.DELETE("/books/:id", controllers.DeleteBook, middleware.JWT([]byte(config.JWTSecret)))
+	e.PUT("/books/:id", controllers.UpdateBook, middleware.JWT([]byte(config.JWTSecret)))
 
 	return e
 }
