@@ -3,6 +3,7 @@ package controllers
 import (
 	"middleware/lib/database"
 	"middleware/models"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
@@ -10,7 +11,7 @@ import (
 func GetBook(e echo.Context) error {
 	books, err := database.GetBook()
 	if err != nil {
-		return e.JSON(500, err)
+		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 	return e.JSON(200, map[string]interface{}{
 		"succes":  true,
@@ -24,7 +25,7 @@ func GetBookByID(e echo.Context) error {
 
 	book, err := database.GetBookByID(id)
 	if err != nil {
-		return e.JSON(500, err)
+		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	return e.JSON(200, map[string]interface{}{
@@ -40,7 +41,7 @@ func CreateBook(e echo.Context) error {
 
 	newBook, err := database.CreateBook(book)
 	if err != nil {
-		return e.JSON(500, err)
+		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	return e.JSON(200, map[string]interface{}{
@@ -55,7 +56,7 @@ func DeleteBook(e echo.Context) error {
 
 	err := database.DeleteBook(id)
 	if err != nil {
-		return e.JSON(500, err)
+		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	return e.JSON(200, map[string]interface{}{
@@ -72,7 +73,7 @@ func UpdateBook(e echo.Context) error {
 
 	updatedBook, err := database.UpdateBook(id, book)
 	if err != nil {
-		return e.JSON(500, err)
+		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	return e.JSON(200, map[string]interface{}{

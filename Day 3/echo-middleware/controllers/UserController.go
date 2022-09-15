@@ -3,6 +3,7 @@ package controllers
 import (
 	"middleware/lib/database"
 	"middleware/models"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
@@ -10,7 +11,7 @@ import (
 func GetUser(e echo.Context) error {
 	users, err := database.GetUser()
 	if err != nil {
-		return e.JSON(500, err)
+		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 	return e.JSON(200, map[string]interface{}{
 		"succes":  true,
@@ -24,7 +25,7 @@ func GetUserByID(e echo.Context) error {
 
 	user, err := database.GetUserByID(id)
 	if err != nil {
-		return e.JSON(500, err)
+		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	return e.JSON(200, map[string]interface{}{
@@ -40,7 +41,7 @@ func CreateUser(e echo.Context) error {
 
 	newUser, err := database.CreateUser(user)
 	if err != nil {
-		return e.JSON(500, err)
+		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	return e.JSON(200, map[string]interface{}{
@@ -55,7 +56,7 @@ func DeleteUser(e echo.Context) error {
 
 	err := database.DeleteUser(id)
 	if err != nil {
-		return e.JSON(500, err)
+		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	return e.JSON(200, map[string]interface{}{
@@ -71,7 +72,7 @@ func UpdateUser(e echo.Context) error {
 
 	updatedUser, err := database.UpdateUser(id, user)
 	if err != nil {
-		return e.JSON(500, err)
+		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	return e.JSON(200, map[string]interface{}{
