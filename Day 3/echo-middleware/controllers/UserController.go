@@ -39,6 +39,10 @@ func CreateUser(e echo.Context) error {
 	user := models.User{}
 	e.Bind(&user)
 
+	if err := e.Validate(user); err != nil {
+		return e.JSON(http.StatusBadRequest, err.Error())
+	}
+
 	newUser, err := database.CreateUser(user)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
@@ -69,6 +73,10 @@ func UpdateUser(e echo.Context) error {
 	id := e.Param("id")
 	user := models.User{}
 	e.Bind(&user)
+
+	if err := e.Validate(user); err != nil {
+		return e.JSON(http.StatusBadRequest, err.Error())
+	}
 
 	updatedUser, err := database.UpdateUser(id, user)
 	if err != nil {

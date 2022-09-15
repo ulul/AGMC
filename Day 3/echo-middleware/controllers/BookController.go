@@ -39,6 +39,10 @@ func CreateBook(e echo.Context) error {
 	book := models.Book{}
 	e.Bind(&book)
 
+	if err := e.Validate(book); err != nil {
+		return e.JSON(http.StatusBadRequest, err.Error())
+	}
+
 	newBook, err := database.CreateBook(book)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
@@ -70,6 +74,10 @@ func UpdateBook(e echo.Context) error {
 
 	book := models.Book{}
 	e.Bind(&book)
+
+	if err := e.Validate(book); err != nil {
+		return e.JSON(http.StatusBadRequest, err.Error())
+	}
 
 	updatedBook, err := database.UpdateBook(id, book)
 	if err != nil {
