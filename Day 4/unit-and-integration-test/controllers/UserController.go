@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"net/http"
-	"testing/lib/database"
+	"testing/lib/repository"
 	"testing/models"
 
 	"github.com/labstack/echo/v4"
@@ -18,15 +18,15 @@ type UserControllerHandler interface {
 }
 
 type UserControllerUserRepository struct {
-	userRepo database.UserRepository
+	UserRepo repository.UserRepository
 }
 
-func NewUserController(repo database.UserRepository) *UserControllerUserRepository {
+func NewUserController(repo repository.UserRepository) *UserControllerUserRepository {
 	return &UserControllerUserRepository{repo}
 }
 
 func (c *UserControllerUserRepository) GetUser(e echo.Context) error {
-	users, err := c.userRepo.GetUser()
+	users, err := c.UserRepo.GetUser()
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -40,7 +40,7 @@ func (c *UserControllerUserRepository) GetUser(e echo.Context) error {
 func (c *UserControllerUserRepository) GetUserByID(e echo.Context) error {
 	id := e.Param("id")
 
-	user, err := c.userRepo.GetUserByID(id)
+	user, err := c.UserRepo.GetUserByID(id)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -60,7 +60,7 @@ func (c *UserControllerUserRepository) CreateUser(e echo.Context) error {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	newUser, err := c.userRepo.CreateUser(user)
+	newUser, err := c.UserRepo.CreateUser(user)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -75,7 +75,7 @@ func (c *UserControllerUserRepository) CreateUser(e echo.Context) error {
 func (c *UserControllerUserRepository) DeleteUser(e echo.Context) error {
 	id := e.Param("id")
 
-	err := c.userRepo.DeleteUser(id)
+	err := c.UserRepo.DeleteUser(id)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -95,7 +95,7 @@ func (c *UserControllerUserRepository) UpdateUser(e echo.Context) error {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	updatedUser, err := c.userRepo.UpdateUser(id, user)
+	updatedUser, err := c.UserRepo.UpdateUser(id, user)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}

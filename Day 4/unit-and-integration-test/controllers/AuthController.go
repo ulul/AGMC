@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"net/http"
-	"testing/lib/database"
+	"testing/lib/repository"
 	"testing/middlewares"
 	"testing/models"
 
@@ -14,10 +14,10 @@ type AuthControllerHandler interface {
 }
 
 type AuthControllerUserRepository struct {
-	userRepo database.UserRepository
+	userRepo repository.UserRepository
 }
 
-func NewAuthController(repo database.UserRepository) *AuthControllerUserRepository {
+func NewAuthController(repo repository.UserRepository) *AuthControllerUserRepository {
 	return &AuthControllerUserRepository{repo}
 }
 
