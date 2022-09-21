@@ -62,7 +62,7 @@ func (h *userHandler) CreateUser(e echo.Context) error {
 	userDetail, err := h.userService.Create(inputUser)
 
 	if err != nil {
-		errorMessage := constant.FormatValidationError(err)
+		errorMessage := err.Error()
 		response := constant.APIResponse("Error create data", http.StatusInternalServerError, false, errorMessage)
 		return e.JSON(http.StatusInternalServerError, response)
 	}
@@ -87,7 +87,7 @@ func (h *userHandler) UpdateUser(e echo.Context) error {
 	userDetail, err := h.userService.Update(id, inputUser)
 
 	if err != nil {
-		errorMessage := constant.FormatValidationError(err)
+		errorMessage := err.Error()
 		response := constant.APIResponse("Error update data", http.StatusInternalServerError, false, errorMessage)
 		return e.JSON(http.StatusInternalServerError, response)
 	}
@@ -104,7 +104,7 @@ func (h *userHandler) DeleteUser(e echo.Context) error {
 	err := h.userService.Delete(id)
 
 	if err != nil {
-		errorMessage := constant.FormatValidationError(err)
+		errorMessage := err.Error()
 		response := constant.APIResponse("Error delete data", http.StatusBadRequest, false, errorMessage)
 		return e.JSON(http.StatusBadRequest, response)
 	}

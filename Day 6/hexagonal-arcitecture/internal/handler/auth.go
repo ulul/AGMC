@@ -19,7 +19,7 @@ func NewAuthHandler(userService user.Service) *authHandler {
 
 func (h *authHandler) Login(e echo.Context) error {
 	var loginInput user.LoginRequest
-	e.Bind(loginInput)
+	e.Bind(&loginInput)
 
 	if err := e.Validate(loginInput); err != nil {
 		errorMessage := constant.FormatValidationError(err)
@@ -30,7 +30,7 @@ func (h *authHandler) Login(e echo.Context) error {
 	userLogin, err := h.userService.Login(loginInput)
 
 	if err != nil {
-		errorMessage := constant.FormatValidationError(err)
+		errorMessage := err.Error()
 		response := constant.APIResponse("Error login", http.StatusBadRequest, false, errorMessage)
 		return e.JSON(http.StatusBadRequest, response)
 	}
@@ -38,7 +38,7 @@ func (h *authHandler) Login(e echo.Context) error {
 	token, err := middleware.CreateToken(int(userLogin.ID))
 
 	if err != nil {
-		errorMessage := constant.FormatValidationError(err)
+		errorMessage := err.Error()
 		response := constant.APIResponse("Error login", http.StatusInternalServerError, false, errorMessage)
 		return e.JSON(http.StatusInternalServerError, response)
 	}

@@ -61,7 +61,7 @@ func (h *bookHandler) CreateBook(e echo.Context) error {
 	bookDetail, err := h.bookService.Create(inputUser)
 
 	if err != nil {
-		errorMessage := constant.FormatValidationError(err)
+		errorMessage := err.Error()
 		response := constant.APIResponse("Error create data", http.StatusInternalServerError, false, errorMessage)
 		return e.JSON(http.StatusInternalServerError, response)
 	}
@@ -86,7 +86,7 @@ func (h *bookHandler) UpdateBook(e echo.Context) error {
 	bookDetail, err := h.bookService.UpdateByID(id, inputUser)
 
 	if err != nil {
-		errorMessage := constant.FormatValidationError(err)
+		errorMessage := err.Error()
 		response := constant.APIResponse("Error update data", http.StatusInternalServerError, false, errorMessage)
 		return e.JSON(http.StatusInternalServerError, response)
 	}
