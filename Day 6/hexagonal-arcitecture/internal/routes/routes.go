@@ -32,7 +32,7 @@ func New() *echo.Echo {
 	bookHandler := handler.NewBookHandler(bookService)
 	authHandler := handler.NewAuthHandler(userService)
 
-	e.GET("/login", authHandler.Login)
+	e.POST("/login", authHandler.Login)
 	e.POST("/users", userHandler.CreateUser)
 
 	e.GET("/users", userHandler.GetUser, echoMiddleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
